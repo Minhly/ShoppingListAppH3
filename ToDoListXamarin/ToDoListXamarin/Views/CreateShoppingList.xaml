@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:ToDoListXamarin" 
+             xmlns:local1="clr-namespace:ToDoListXamarin.ViewModels"
+             x:Class="ToDoListXamarin.CreateShoppingList">
+
+    <ContentPage.BindingContext>
+        <local1:CreateListViewModel/>
+    </ContentPage.BindingContext>
+
+    
+    <StackLayout>
+        <Entry Text="{Binding NewListTitle}" Placeholder="Titel"/>
+        <DatePicker Date="{Binding SelectedListDate}" />
+        <Entry Text="{Binding NewTodoInputValue}" x:Name="InputField" Placeholder="Enter a Todo" ReturnCommand="{Binding AddTodoCommand}"/>
+            <ListView x:Name="ToDoList" ItemsSource="{Binding ToDoItems}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <FlexLayout>
+                                <Label Text="{Binding TodoText}" FontSize="Large"/>
+                                <ImageButton Source="delete.png"/>
+                            </FlexLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        <StackLayout Orientation="Horizontal">
+            <Button Text="Cancel" Command="{Binding CancelCommand}" HorizontalOptions="FillAndExpand"></Button>
+            <Button Text="Save" Command="{Binding SaveCommand}" HorizontalOptions="FillAndExpand"></Button>
+        </StackLayout>
+    </StackLayout>
+</ContentPage>

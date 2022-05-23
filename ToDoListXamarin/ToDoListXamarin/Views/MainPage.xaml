@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:local="clr-namespace:ToDoListXamarin" xmlns:local1="clr-namespace:ToDoListXamarin.Models" xmlns:local2="clr-namespace:ToDoListXamarin.ViewModels" x:DataType="local2:MainPageViewModel"
+             x:Class="ToDoListXamarin.MainPage"
+             Title="{Binding Title}"
+             >
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="+" Clicked="OnAddItem"
+                 IconImageSource="plus.png"
+                 Order="Primary"
+                 Priority="0"/>
+    </ContentPage.ToolbarItems>
+
+    <StackLayout Margin="20,35,20,20">
+        <RefreshView x:DataType="local2:MainPageViewModel" Command="{Binding LoadListsCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+            <CollectionView ItemsSource="{Binding Lists}">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout
+                    Orientation="Vertical" 
+                    Span="2" 
+                    VerticalItemSpacing="15" 
+                    HorizontalItemSpacing="10"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Padding="5" BackgroundColor="DodgerBlue" x:DataType="local1:ShoppingListAndItems">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50" />
+                                <RowDefinition Height="30" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="60" />
+                                <ColumnDefinition Width="50" />
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0"
+                                   Grid.Row="0"
+                                Text="{Binding ShoppingDate}"
+                                FontAttributes="Italic"/>
+                            <Label Grid.Column="1"
+                                Text="{Binding Title}"
+                                FontAttributes="Italic"/>
+                            <Label Grid.Column="1"
+                                Text="{Binding ShoppingItems}"
+                                FontAttributes="Italic"
+                                VerticalOptions="End" />
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer 
+                                    NumberOfTapsRequired="1"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type local2:MainPageViewModel}}, Path=ItemTapped}"
+                                    CommandParameter="{Binding .}">
+                                </TapGestureRecognizer>
+                            </Grid.GestureRecognizers>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </StackLayout>
+</ContentPage>
